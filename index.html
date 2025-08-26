@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternHive - Intern Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="public/favicon.ico">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Supabase JavaScript Client -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Database Client -->
+    <script src="supabase-client.js"></script>
+    <!-- Application JavaScript -->
+    <script src="script.js"></script>
+</head>
+<body>
+    <!-- Navigation Header (hidden by default, shown when logged in) -->
+    <header id="header" class="header hidden">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="header-title">InternHive</h1>
+                <span id="header-subtitle" class="header-subtitle"></span>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-ghost btn-sm" id="notifications-btn">
+                    <i data-lucide="bell"></i>
+                </button>
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <span id="user-name"></span>
+                </div>
+                <button class="btn btn-outline btn-sm" id="logout-btn">
+                    <i data-lucide="log-out"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="main-content">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-overlay"></div>
+                <div class="container hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">Intern Management System</h1>
+                        <p class="hero-description">
+                            Complete Intern Management System connecting administrators and interns 
+                            for seamless collaboration and growth tracking.
+                        </p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-lg" onclick="navigateTo('admin-login')">Admin Login</button>
+                            <button class="btn btn-outline btn-lg" onclick="navigateTo('intern-login')">Intern Login</button>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="public/hero-image.jpg" alt="Professional team working with InternHive system">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Powerful Features for Modern Internship Management</h2>
+                        <p>Everything you need to manage interns effectively, track performance, and ensure successful outcomes.</p>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i data-lucide="users" class="feature-icon"></i>
+                            <h3>Intern Management</h3>
+                            <p>Comprehensive intern profiles, skills tracking, and assignment management</p>
+                        </div>
+                        <div class="feature-card">
+                            <i data-lucide="target" class="feature-icon"></i>
+                            <h3>Task Assignment</h3>
+                            <p>Create, assign, and track tasks with deadlines and progress monitoring</p>
+                        </div>
+                        <div class="feature-card">
+                            <i data-lucide="bar-chart-3" class="feature-icon"></i>
+                            <h3>Performance Analytics</h3>
+                            <p>Detailed performance tracking with ratings, feedback, and progress reports</p>
+                        </div>
+                        <div class="feature-card">
+                            <i data-lucide="file-text" class="feature-icon"></i>
+                            <h3>Document Management</h3>
+                            <p>Secure file sharing, assignment submissions, and resource management</p>
+                        </div>
+                        <div class="feature-card">
+                            <i data-lucide="shield" class="feature-icon"></i>
+                            <h3>Attendance Tracking</h3>
+                            <p>Real-time attendance monitoring with check-in/out and reporting</p>
+                        </div>
+                        <div class="feature-card">
+                            <i data-lucide="zap" class="feature-icon"></i>
+                            <h3>Real-time Updates</h3>
+                            <p>Instant notifications and live dashboard updates for all activities</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- News Section -->
+            <section class="news-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Latest Updates</h2>
+                        <p>Stay informed about the newest features and improvements to InternHive</p>
+                    </div>
+                    <div class="news-carousel">
+                        <div class="news-container" id="news-container">
+                            <!-- News items will be populated by JavaScript -->
+                        </div>
+                        <button class="carousel-btn carousel-prev" id="news-prev">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="carousel-btn carousel-next" id="news-next">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <div class="carousel-indicators" id="news-indicators">
+                            <!-- Indicators will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="container">
+                    <h2>Ready to Get Started?</h2>
+                    <p>Join thousands of organizations already using InternHive to manage their internship programs effectively.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-primary btn-lg" onclick="navigateTo('admin-signup')">Create Admin Account</button>
+                        <button class="btn btn-outline btn-lg" onclick="navigateTo('intern-signup')">Register as Intern</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h3>InternHive</h3>
+                            <p>The complete solution for modern internship management.</p>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="#" onclick="navigateTo('admin-login')">Admin Portal</a></li>
+                                <li><a href="#" onclick="navigateTo('intern-login')">Intern Portal</a></li>
+                                <li><a href="#" onclick="navigateTo('database-schema')">Database Schema</a></li>
+                                <li><a href="#" onclick="navigateTo('admin-signup')">Get Started</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Contact</h4>
+                            <p>
+                                Email: support@internhive.com<br>
+                                Phone: (555) 123-4567
+                            </p>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p>&copy; 2024 InternHive. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Admin Signup Page -->
+        <div id="admin-signup" class="page">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>InternHive</h1>
+                    <p>Admin Portal</p>
+                </div>
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>Create Admin Account</h2>
+                        <p>Set up your administrator dashboard</p>
+                    </div>
+                    <form id="admin-signup-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="admin-signup-name">Full Name</label>
+                            <input type="text" id="admin-signup-name" name="name" placeholder="Dr. Sarah Wilson" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-signup-email">Email</label>
+                            <input type="email" id="admin-signup-email" name="email" placeholder="admin@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-signup-role">Role</label>
+                            <select id="admin-signup-role" name="role" required>
+                                <option value="">Select your role</option>
+                                <option value="HR">HR Manager</option>
+                                <option value="Supervisor">Supervisor</option>
+                                <option value="Mentor">Mentor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-signup-photo">Profile Photo</label>
+                            <input type="file" id="admin-signup-photo" name="photo" accept="image/*" class="file-input">
+                            <small class="form-text">Upload a profile photo (optional)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-signup-password">Password</label>
+                            <input type="password" id="admin-signup-password" name="password" placeholder="Create a strong password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-signup-confirm">Confirm Password</label>
+                            <input type="password" id="admin-signup-confirm" name="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    </form>
+                    <div class="auth-links">
+                        <p>Already have an account? <a href="#" onclick="navigateTo('admin-login')">Sign in here</a></p>
+                        <a href="#" onclick="navigateTo('landing-page')">&larr; Back to home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Login Page -->
+        <div id="admin-login" class="page">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>InternHive</h1>
+                    <p>Admin Portal</p>
+                </div>
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to your admin dashboard</p>
+                    </div>
+                    <form id="admin-login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="admin-email">Email</label>
+                            <input type="email" id="admin-email" name="email" value="admin@company.com" placeholder="admin@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-password">Password</label>
+                            <input type="password" id="admin-password" name="password" placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                    </form>
+                    <div class="auth-demo">
+                        <p>Demo credentials: admin@company.com / admin123</p>
+                    </div>
+                    <div class="auth-links">
+                        <p>Don't have an account? <a href="#" onclick="navigateTo('admin-signup')">Sign up here</a></p>
+                        <a href="#" onclick="navigateTo('landing-page')">&larr; Back to home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intern Signup Page -->
+        <div id="intern-signup" class="page">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>InternHive</h1>
+                    <p>Intern Portal</p>
+                </div>
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>Join as Intern</h2>
+                        <p>Create your intern account to get started</p>
+                    </div>
+                    <form id="intern-signup-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="intern-signup-name">Full Name</label>
+                            <input type="text" id="intern-signup-name" name="name" placeholder="Alice Johnson" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-email">Email</label>
+                            <input type="email" id="intern-signup-email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-phone">Phone Number</label>
+                            <input type="tel" id="intern-signup-phone" name="phone" placeholder="(555) 123-4567" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-university">University</label>
+                            <input type="text" id="intern-signup-university" name="university" placeholder="MIT" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-program">Program/Major</label>
+                            <input type="text" id="intern-signup-program" name="program" placeholder="Computer Science" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-skills">Skills (comma-separated)</label>
+                            <input type="text" id="intern-signup-skills" name="skills" placeholder="React, JavaScript, Python" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-photo">Profile Photo</label>
+                            <input type="file" id="intern-signup-photo" name="photo" accept="image/*" class="file-input">
+                            <small class="form-text">Upload a profile photo (optional)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-password">Password</label>
+                            <input type="password" id="intern-signup-password" name="password" placeholder="Create a strong password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-signup-confirm">Confirm Password</label>
+                            <input type="password" id="intern-signup-confirm" name="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    </form>
+                    <div class="auth-links">
+                        <p>Already have an account? <a href="#" onclick="navigateTo('intern-login')">Sign in here</a></p>
+                        <a href="#" onclick="navigateTo('landing-page')">&larr; Back to home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intern Login Page -->
+        <div id="intern-login" class="page">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>InternHive</h1>
+                    <p>Intern Portal</p>
+                </div>
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to your intern dashboard</p>
+                    </div>
+                    <form id="intern-login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="intern-email">Email</label>
+                            <input type="email" id="intern-email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="intern-password">Password</label>
+                            <input type="password" id="intern-password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                    </form>
+                    <div class="auth-demo">
+                        <p>Demo: alice@example.com / intern123</p>
+                    </div>
+                    <div class="auth-links">
+                        <p>Don't have an account? <a href="#" onclick="navigateTo('intern-signup')">Sign up here</a></p>
+                        <a href="#" onclick="navigateTo('landing-page')">&larr; Back to home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" class="page dashboard">
+            <div class="dashboard-container">
+                <div class="dashboard-nav">
+                    <button class="nav-btn active" data-tab="overview">
+                        <i data-lucide="bar-chart-3"></i>
+                        Overview
+                    </button>
+                    <button class="nav-btn" data-tab="interns">
+                        <i data-lucide="users"></i>
+                        Manage Interns
+                    </button>
+                    <button class="nav-btn" data-tab="tasks">
+                        <i data-lucide="clipboard-list"></i>
+                        Tasks
+                    </button>
+                    <button class="nav-btn" data-tab="attendance">
+                        <i data-lucide="calendar-check"></i>
+                        Attendance
+                    </button>
+                    <button class="nav-btn" data-tab="news">
+                        <i data-lucide="file-text"></i>
+                        News Management
+                    </button>
+                    <button class="nav-btn" data-tab="reports">
+                        <i data-lucide="file-text"></i>
+                        Reports
+                    </button>
+                </div>
+
+                <div class="dashboard-content">
+                    <!-- Overview Tab -->
+                    <div id="overview-tab" class="tab-content active">
+                        <h1>Admin Dashboard</h1>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Active Interns</span>
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <div class="stat-value" id="active-interns-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Total Tasks</span>
+                                    <i data-lucide="clipboard-list"></i>
+                                </div>
+                                <div class="stat-value" id="total-tasks-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Completed Tasks</span>
+                                    <i data-lucide="bar-chart-3"></i>
+                                </div>
+                                <div class="stat-value success" id="completed-tasks-count">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Pending Tasks</span>
+                                    <i data-lucide="clipboard-list"></i>
+                                </div>
+                                <div class="stat-value warning" id="pending-tasks-count">0</div>
+                            </div>
+                        </div>
+                        <div class="recent-activity">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Recent Activity</h3>
+                                </div>
+                                <div class="card-content" id="recent-activity-list">
+                                    <!-- Recent activity items will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interns Tab -->
+                    <div id="interns-tab" class="tab-content">
+                        <div class="tab-header">
+                            <h2>Manage Interns</h2>
+                            <div class="search-container">
+                                <i data-lucide="search"></i>
+                                <input type="text" id="intern-search" placeholder="Search interns...">
+                            </div>
+                        </div>
+                        <div id="interns-list" class="items-list">
+                            <!-- Intern items will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Tasks Tab -->
+                    <div id="tasks-tab" class="tab-content">
+                        <div class="tab-header">
+                            <h2>Task Management</h2>
+                            <button class="btn btn-primary" onclick="openCreateTaskModal()">
+                                <i data-lucide="plus"></i>
+                                Create Task
+                            </button>
+                        </div>
+                        <div id="tasks-list" class="items-list">
+                            <!-- Task items will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Attendance Tab -->
+                    <div id="attendance-tab" class="tab-content">
+                        <h2>Attendance Management</h2>
+                        <div id="attendance-list" class="items-list">
+                            <!-- Attendance items will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- News Tab -->
+                    <div id="news-tab" class="tab-content">
+                        <div class="tab-header">
+                            <h2>News Management</h2>
+                            <button class="btn btn-primary" onclick="openCreateNewsModal()">
+                                <i data-lucide="plus"></i>
+                                Add News
+                            </button>
+                        </div>
+                        <div id="news-list" class="items-list">
+                            <!-- News items will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Reports Tab -->
+                    <div id="reports-tab" class="tab-content">
+                        <h2>Reports & Analytics</h2>
+                        <div class="reports-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Intern Performance Report</h3>
+                                    <p>Download comprehensive performance data</p>
+                                </div>
+                                <div class="card-content">
+                                    <button class="btn btn-outline">
+                                        <i data-lucide="download"></i>
+                                        Download PDF
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Attendance Report</h3>
+                                    <p>Download attendance records</p>
+                                </div>
+                                <div class="card-content">
+                                    <button class="btn btn-outline">
+                                        <i data-lucide="download"></i>
+                                        Download Excel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intern Dashboard -->
+        <div id="intern-dashboard" class="page dashboard">
+            <div class="dashboard-container">
+                <div class="welcome-message">
+                    <h1 id="intern-welcome">Welcome back! 👋</h1>
+                    <p>Here's your internship progress and updates.</p>
+                </div>
+
+                <div class="dashboard-nav">
+                    <button class="nav-btn active" data-tab="intern-overview">
+                        <i data-lucide="user"></i>
+                        Overview
+                    </button>
+                    <button class="nav-btn" data-tab="intern-tasks">
+                        <i data-lucide="clipboard-list"></i>
+                        My Tasks
+                    </button>
+                    <button class="nav-btn" data-tab="intern-attendance">
+                        <i data-lucide="calendar"></i>
+                        Attendance
+                    </button>
+                    <button class="nav-btn" data-tab="intern-documents">
+                        <i data-lucide="file-text"></i>
+                        Documents
+                    </button>
+                    <button class="nav-btn" data-tab="intern-profile">
+                        <i data-lucide="settings"></i>
+                        Profile
+                    </button>
+                </div>
+
+                <div class="dashboard-content">
+                    <!-- Intern Overview Tab -->
+                    <div id="intern-overview-tab" class="tab-content active">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Total Tasks</span>
+                                    <i data-lucide="clipboard-list"></i>
+                                </div>
+                                <div class="stat-value" id="intern-total-tasks">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Completed</span>
+                                    <i data-lucide="check-circle"></i>
+                                </div>
+                                <div class="stat-value success" id="intern-completed-tasks">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>In Progress</span>
+                                    <i data-lucide="clock"></i>
+                                </div>
+                                <div class="stat-value warning" id="intern-progress-tasks">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <span>Pending</span>
+                                    <i data-lucide="clock"></i>
+                                </div>
+                                <div class="stat-value" id="intern-pending-tasks">0</div>
+                            </div>
+                        </div>
+                        <div class="overview-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Recent Tasks</h3>
+                                    <p>Your latest assignments</p>
+                                </div>
+                                <div class="card-content" id="intern-recent-tasks">
+                                    <!-- Recent tasks will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Performance Summary</h3>
+                                    <p>Your progress overview</p>
+                                </div>
+                                <div class="card-content" id="intern-performance">
+                                    <!-- Performance data will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other intern tabs will be similar structure -->
+                    <div id="intern-tasks-tab" class="tab-content">
+                        <h2>My Tasks & Assignments</h2>
+                        <div id="intern-tasks-list" class="items-list">
+                            <!-- Intern tasks will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div id="intern-attendance-tab" class="tab-content">
+                        <h2>My Attendance</h2>
+                        <div class="attendance-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Quick Check-in</h3>
+                                    <p>Mark your attendance for today</p>
+                                </div>
+                                <div class="card-content">
+                                    <button class="btn btn-primary btn-full" onclick="checkIn()">Check In</button>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Attendance Summary</h3>
+                                    <p>Your attendance record</p>
+                                </div>
+                                <div class="card-content" id="intern-attendance-summary">
+                                    <!-- Attendance summary will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="intern-documents-tab" class="tab-content">
+                        <h2>Documents & Resources</h2>
+                        <div class="documents-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Upload Documents</h3>
+                                    <p>Upload your resume, certificates, or reports</p>
+                                </div>
+                                <div class="card-content">
+                                    <input type="file" id="document-upload" class="file-input">
+                                    <button class="btn btn-primary btn-full">
+                                        <i data-lucide="upload"></i>
+                                        Upload Document
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Shared Resources</h3>
+                                    <p>Download resources shared by admins</p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="resource-item">
+                                        <span>Internship Handbook.pdf</span>
+                                        <button class="btn btn-outline btn-sm">
+                                            <i data-lucide="download"></i>
+                                        </button>
+                                    </div>
+                                    <div class="resource-item">
+                                        <span>Company Guidelines.docx</span>
+                                        <button class="btn btn-outline btn-sm">
+                                            <i data-lucide="download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="intern-profile-tab" class="tab-content">
+                        <div class="tab-header">
+                            <h2>My Profile</h2>
+                            <button class="btn btn-primary" onclick="editProfile()">Edit Profile</button>
+                        </div>
+                        <div class="profile-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Personal Information</h3>
+                                </div>
+                                <div class="card-content" id="intern-personal-info">
+                                    <!-- Personal info will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Internship Details</h3>
+                                </div>
+                                <div class="card-content" id="intern-details">
+                                    <!-- Internship details will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Schema Page -->
+        <div id="database-schema" class="page">
+            <div class="container">
+                <div class="schema-header">
+                    <a href="#" onclick="navigateTo('landing-page')" class="back-link">&larr; Back to Home</a>
+                    <h1>Database Schema</h1>
+                    <p>InternHive Database Structure and Relationships</p>
+                </div>
+                
+                <div class="schema-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Database Tables</h3>
+                            <p>Complete schema for the InternHive system</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="schema-table">
+                                <h4>Admins Table</h4>
+                                <ul>
+                                    <li><strong>id:</strong> UUID (Primary Key)</li>
+                                    <li><strong>name:</strong> VARCHAR(255) NOT NULL</li>
+                                    <li><strong>email:</strong> VARCHAR(255) UNIQUE NOT NULL</li>
+                                    <li><strong>role:</strong> VARCHAR(100) NOT NULL</li>
+                                    <li><strong>password_hash:</strong> VARCHAR(255) NOT NULL</li>
+                                    <li><strong>created_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                    <li><strong>updated_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="schema-table">
+                                <h4>Interns Table</h4>
+                                <ul>
+                                    <li><strong>id:</strong> UUID (Primary Key)</li>
+                                    <li><strong>name:</strong> VARCHAR(255) NOT NULL</li>
+                                    <li><strong>email:</strong> VARCHAR(255) UNIQUE NOT NULL</li>
+                                    <li><strong>phone:</strong> VARCHAR(20)</li>
+                                    <li><strong>university:</strong> VARCHAR(255)</li>
+                                    <li><strong>program:</strong> VARCHAR(255)</li>
+                                    <li><strong>skills:</strong> TEXT[]</li>
+                                    <li><strong>password_hash:</strong> VARCHAR(255) NOT NULL</li>
+                                    <li><strong>status:</strong> VARCHAR(50) DEFAULT 'active'</li>
+                                    <li><strong>start_date:</strong> DATE</li>
+                                    <li><strong>end_date:</strong> DATE</li>
+                                    <li><strong>created_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                    <li><strong>updated_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="schema-table">
+                                <h4>Tasks Table</h4>
+                                <ul>
+                                    <li><strong>id:</strong> UUID (Primary Key)</li>
+                                    <li><strong>title:</strong> VARCHAR(255) NOT NULL</li>
+                                    <li><strong>description:</strong> TEXT</li>
+                                    <li><strong>assigned_to:</strong> UUID (Foreign Key → interns.id)</li>
+                                    <li><strong>assigned_by:</strong> UUID (Foreign Key → admins.id)</li>
+                                    <li><strong>status:</strong> VARCHAR(50) DEFAULT 'pending'</li>
+                                    <li><strong>priority:</strong> VARCHAR(20) DEFAULT 'medium'</li>
+                                    <li><strong>due_date:</strong> TIMESTAMP</li>
+                                    <li><strong>completed_at:</strong> TIMESTAMP</li>
+                                    <li><strong>created_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                    <li><strong>updated_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="schema-table">
+                                <h4>News Table</h4>
+                                <ul>
+                                    <li><strong>id:</strong> UUID (Primary Key)</li>
+                                    <li><strong>title:</strong> VARCHAR(255) NOT NULL</li>
+                                    <li><strong>content:</strong> TEXT NOT NULL</li>
+                                    <li><strong>author_id:</strong> UUID (Foreign Key → admins.id)</li>
+                                    <li><strong>published:</strong> BOOLEAN DEFAULT false</li>
+                                    <li><strong>created_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                    <li><strong>updated_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="schema-table">
+                                <h4>Attendance Table</h4>
+                                <ul>
+                                    <li><strong>id:</strong> UUID (Primary Key)</li>
+                                    <li><strong>intern_id:</strong> UUID (Foreign Key → interns.id)</li>
+                                    <li><strong>check_in:</strong> TIMESTAMP</li>
+                                    <li><strong>check_out:</strong> TIMESTAMP</li>
+                                    <li><strong>date:</strong> DATE NOT NULL</li>
+                                    <li><strong>status:</strong> VARCHAR(20) DEFAULT 'present'</li>
+                                    <li><strong>notes:</strong> TEXT</li>
+                                    <li><strong>created_at:</strong> TIMESTAMP DEFAULT NOW()</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Setup Instructions</h3>
+                            <p>How to connect to Supabase</p>
+                        </div>
+                        <div class="card-content">
+                            <ol>
+                                <li>Create a new project at <a href="https://supabase.com" target="_blank">supabase.com</a></li>
+                                <li>Copy the project URL and anon key</li>
+                                <li>Update the configuration in <code>supabase-client.js</code></li>
+                                <li>Run the SQL schema from <code>supabase-schema.sql</code></li>
+                                <li>Enable Row Level Security on all tables</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create News Modal -->
+    <div id="create-news-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create News Article</h3>
+                <button class="modal-close" onclick="closeCreateNewsModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="create-news-form" class="modal-form">
+                <div class="form-group">
+                    <label for="news-title">Title</label>
+                    <input type="text" id="news-title" name="title" placeholder="Enter news title" required>
+                </div>
+                <div class="form-group">
+                    <label for="news-content">Content</label>
+                    <textarea id="news-content" name="content" rows="6" placeholder="Enter news content" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="news-image">Featured Image</label>
+                    <input type="file" id="news-image" name="image" accept="image/*" class="file-input">
+                    <small class="form-text">Upload a featured image for the news article (optional)</small>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="news-published" name="published">
+                        <span class="checkmark"></span>
+                        Publish immediately
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeCreateNewsModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create News</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div id="create-task-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Task</h3>
+                <button class="modal-close" onclick="closeCreateTaskModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="create-task-form" class="modal-form">
+                <div class="form-group">
+                    <label for="task-title">Title</label>
+                    <input type="text" id="task-title" name="title" placeholder="Enter task title" required>
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Description</label>
+                    <textarea id="task-description" name="description" rows="4" placeholder="Enter task description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-assignee">Assign to Intern</label>
+                    <select id="task-assignee" name="assignedTo" required>
+                        <option value="">Select an intern</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-priority">Priority</label>
+                    <select id="task-priority" name="priority" required>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-due-date">Due Date</label>
+                    <input type="datetime-local" id="task-due-date" name="dueDate" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeCreateTaskModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Intern Modal -->
+    <div id="edit-intern-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Intern Profile</h3>
+                <button class="modal-close" onclick="closeEditInternModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="edit-intern-form" class="modal-form">
+                <div class="form-group">
+                    <label for="edit-intern-name">Full Name</label>
+                    <input type="text" id="edit-intern-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-email">Email</label>
+                    <input type="email" id="edit-intern-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-phone">Phone Number</label>
+                    <input type="tel" id="edit-intern-phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-university">University</label>
+                    <input type="text" id="edit-intern-university" name="university">
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-program">Program/Major</label>
+                    <input type="text" id="edit-intern-program" name="program">
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-skills">Skills (comma-separated)</label>
+                    <input type="text" id="edit-intern-skills" name="skills">
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-photo">Profile Photo</label>
+                    <input type="file" id="edit-intern-photo" name="photo" accept="image/*" class="file-input">
+                    <small class="form-text">Upload a new profile photo (optional)</small>
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-status">Status</label>
+                    <select id="edit-intern-status" name="status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-start-date">Start Date</label>
+                    <input type="date" id="edit-intern-start-date" name="startDate">
+                </div>
+                <div class="form-group">
+                    <label for="edit-intern-end-date">End Date</label>
+                    <input type="date" id="edit-intern-end-date" name="endDate">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditInternModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Intern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit News Modal -->
+    <div id="edit-news-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit News Article</h3>
+                <button class="modal-close" onclick="closeEditNewsModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="edit-news-form" class="modal-form">
+                <div class="form-group">
+                    <label for="edit-news-title">Title</label>
+                    <input type="text" id="edit-news-title" name="title" placeholder="Enter news title" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-news-content">Content</label>
+                    <textarea id="edit-news-content" name="content" rows="6" placeholder="Enter news content" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit-news-image">Featured Image</label>
+                    <input type="file" id="edit-news-image" name="image" accept="image/*" class="file-input">
+                    <small class="form-text">Upload a new featured image (optional - leave empty to keep current image)</small>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="edit-news-published" name="published">
+                        <span class="checkmark"></span>
+                        Published
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditNewsModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update News</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit My Profile</h3>
+                <button class="modal-close" onclick="closeEditProfileModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="edit-profile-form" class="modal-form">
+                <div class="form-group">
+                    <label for="edit-profile-name">Full Name</label>
+                    <input type="text" id="edit-profile-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-profile-email">Email</label>
+                    <input type="email" id="edit-profile-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-profile-phone">Phone Number</label>
+                    <input type="tel" id="edit-profile-phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="edit-profile-university">University</label>
+                    <input type="text" id="edit-profile-university" name="university">
+                </div>
+                <div class="form-group">
+                    <label for="edit-profile-program">Program/Major</label>
+                    <input type="text" id="edit-profile-program" name="program">
+                </div>
+                <div class="form-group">
+                    <label for="edit-profile-skills">Skills (comma-separated)</label>
+                    <input type="text" id="edit-profile-skills" name="skills">
+                </div>
+                <div class="form-group">
+                    <label for="edit-profile-photo">Profile Photo</label>
+                    <input type="file" id="edit-profile-photo" name="photo" accept="image/*" class="file-input">
+                    <small class="form-text">Upload a new profile photo (optional)</small>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditProfileModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+        // Initialize Lucide icons after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
