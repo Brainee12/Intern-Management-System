@@ -95,7 +95,7 @@ const InternSignup = () => {
       }
     });
 
-    toast.success(`Welcome to InternHive, ${newIntern.name}!`);
+    toast.success(`Welcome to Intern Management System, ${newIntern.name}!`);
     navigate('/intern-dashboard');
   };
 
